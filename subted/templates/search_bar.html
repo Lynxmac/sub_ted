@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/static/images/favicon.ico"/>
+     <link rel="stylesheet" href="/static/css/base.css">
+    <title>SubTED search for talks</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="centered">
+          <h1 class="red-title">subTED</h1>Watch bilingual sub TED talks online, download bilingual talk's sub.
+      <form class="form-redesign">
+        <br>
+      <input type="text" name="q" placeholder="Example: https://www.ted.com/talks/ken_robinson_says_schools_kill_creativity OR ken robinson says schools kill creativity">
+      <br>
+      <a><button formaction="/search/" type="submit" class="home-button">Search Talk</button></a>
+      <a href="/talks/"><button type="button" class="btn btn-default home-button">Random Talk</button></a>
+          </form>
+          <div class="sticky-footer">
+          {% include "footer.html" %}
+          </div>
+      </div>
+
+    </div>
+  </body>
+
+</html>
+

@@ -1,0 +1,4 @@
+requests
+django==1.10
+gevent
+gunicorn

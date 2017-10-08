@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container centered-div">
+    {% include "nav_bar.html" %}
+    <div class="col-sm-2 col-md-2 video-div-player-class" >
+        <h1 class="talk-title"><a class="talk-title" href="{{talks.talk_url}}">{{talks.name}}</a></h1>
+    <video class="js-player video-player-class" onclick="this.paused ? this.play() : this.pause()" preload="none" controls="" hidden="" style="display: block;">
+          <source src="{{talks.media.2.480P.uri}}" type="video/mp4">
+        <track class="js-track" kind="captions" src="/api/download/transcript/{{talks.id}}/vtt/?lang=en" default="">
+    </video>
+     <div>
+         <h2 class="talk-description-title">Description:</h2><br>
+            <p>  {{talks.description}}</p>
+          <h2 class="talk-description-title">Transcripts:</h2><br>
+         <p class="js-display-talk-transcript"></p>
+     </div>
+    </div>
+
+    <div class="col-sm-2 col-md-2 sidebar">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-title" >Download subtitles</li>
+            <li class="list-group-item js-download-transcript"><a class="js-download-transcript-a" href="/api/download/transcript/{{talks.id}}/vtt/?lang=en">VTT</a></li>
+            <li class="list-group-item js-download-transcript"><a class="js-download-transcript-a" href="/api/download/transcript/{{talks.id}}/txt/?lang=en">TXT</a></li>
+            <li class="list-group-item js-download-transcript"><a class="js-download-transcript-a" href="/api/download/transcript/{{talks.id}}/srt/?lang=en">SRT</a></li>
+        </ul>
+    </div>
+    <div class="col-sm-2 col-md-2 sidebar">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-title" >Download videos</li>
+            {% for quality in talks.media %}
+                {% for p, val in quality.items %}
+                <li class="list-group-item" type="{{p}}"><a href="{{val.uri}}">{{p}}</a></li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-sm-2 col-md-2 sidebar">
+
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-title" >Select transcripts</li>
+            {% for lang_code,val in talks.languages.items %}
+            <li class="list-group-item js-list-select-languages" type="{{lang_code}}">{{val.orig_name}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+
+    </div>
+    </div>
+{% include "footer.html" %}
+
+
+{%endblock content %}
+

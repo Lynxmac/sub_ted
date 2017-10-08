@@ -1,0 +1,29 @@
+version: '2'
+services:
+  django:
+    restart: always
+    build: ./subted/
+    environment:
+      DEBUG: 'true'
+      PYTHONPATH: '/usr/src/app/'
+      DJANGO_SETTINGS_MODULE: 'subted.settings'
+    volumes:
+      - ./subted:/usr/src/app/
+    dns:
+        - 8.8.8.8
+    command: bash -c "gunicorn subted.wsgi:application -w 4 -k gevent -b :8000 --timeout 2000 --reload"
+  nginx:
+    restart: always
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx/sites-enabled/:/etc/nginx/conf.d/
+      - ./subted/static/static/:/usr/src/app/static
+    ports:
+      - "80:80"
+    links:
+      - django:django
+    environment:
+      DJANGO_HOST: 'django'
+      DJANGO_PORT: '8000'

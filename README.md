@@ -2,4 +2,4 @@
 Watch bilingual sub TED talks online, download bilingual talk's sub. http://subted.com
 
 
-Inspire by: [ted2srt](https://ted2srt.org/)
+Inspired by: [ted2srt](https://ted2srt.org/)

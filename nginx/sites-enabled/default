@@ -1,0 +1,26 @@
+upstream django {
+       ip_hash;
+       #server unix:/tmp/gunicorn.sock fail_timeout=0;
+       server ${DJANGO_HOST}:${DJANGO_PORT};
+}
+server {
+    listen 80;
+    server_name subted.com;
+    charset utf-8;
+    gzip on;
+    gzip_static on;
+    gzip_types      text/plain application/x-javascript application/xml application/json text/css text/js;
+    gzip_min_length 256;
+    location /static {
+        add_header Cache-Control public;
+        expires 100d;
+        alias /usr/src/app/static;
+    }
+    location / {
+        proxy_pass http://django;
+        proxy_read_timeout 2000;
+        proxy_connect_timeout 2000;
+        proxy_send_timeout 2000;
+
+    }
+}

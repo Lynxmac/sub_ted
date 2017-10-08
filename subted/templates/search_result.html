@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src="https://code.angularjs.org/1.4.6/angular.min.js"></script>
+<div class="container">
+    {% include "nav_bar.html" %}
+{% verbatim %}
+    <div ng-app="myApp" ng-controller="customersCtrl">
+
+   <div ng-repeat = "result in results" class="clearfix">
+       <div class="col-md-12 blogShort">
+                     <h3 class="talk-title"><a class="talk-title" ng-href='/talks/{{ result.id }}/{{ result.slug }}'>{{ result.name }}</a></h3>
+                     <a ng-href='/talks/{{ result.id }}/{{ result.slug }}'>
+                         <img src="{{result.images[1].image.url}}"
+                              alt="post img" class="pull-left img-responsive thumb margin10 default">
+                     </a>
+                         <!--<em><a ng-href='/talks/{{result.id}}/{{ result.slug }}'>{{ result.name }}</a></em>-->
+                     <article><p>
+                         {{result.description}}
+                         </p></article>
+           <a class="grey_text">Published at {{result.published_at}} | {{result.transcripts_count}} transcripts</a>
+       </div>
+   </div>
+       </div>
+{% endverbatim %}
+</div>
+<script>
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+    $http.get("/api/search/?q={{request.GET.q}}")
+    .success(function(response) {
+         $scope.results = response.result
+     });
+});
+</script>
+{% include "footer.html" %}
+{%endblock content %}
+
