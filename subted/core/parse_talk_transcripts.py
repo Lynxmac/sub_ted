@@ -9,6 +9,12 @@ from api.ted_apis import  (
 from subted.settings import HEADERS
 from parse_talk_subtitle import  process_two_vtt_to_one
 
+ends = (',', '.', '"', "?", "-", "!", "、",
+            ";", ")", ">", "_", "，", "？",
+            "。", "！", "；", "》", "——", "…",
+            "）", "）", "’", "：", "。", "；", "，", "；", "：")
+
+
 def extrange_dict_key_value(dic, less, threhold=4):
     hit_count = 0
     for p,val in less.iteritems():
@@ -36,7 +42,7 @@ def count_transcript_text(transcript_json):
     return length, paragraph_length
 
 def extract_transcripts(json_1, json_2, vtt_pairs):
-    ends = (',', '.', '"', "?", "-", "!", "、", ";", ")", ">", "_")
+
     length_1, paragraph_length_1 = count_transcript_text(json_1)
     length_2, paragraph_length_2 = count_transcript_text(json_2)
     print paragraph_length_1, paragraph_length_2
@@ -68,15 +74,15 @@ def extract_transcripts(json_1, json_2, vtt_pairs):
                 if more:
                     for vtt, ptt in vtt_pairs.iteritems():
                         if format_text in vtt and ptt not in p_more_text:
-                            if not format_text.encode("utf-8").endswith(ends):
+                            if not ptt.encode("utf-8").endswith(ends):
                                 p_more_text += ptt + ","
                             else:
-                                p_more_text += ptt + ","
+                                p_more_text += ptt
                             break
                 if not format_text.encode("utf-8").endswith(ends):
                     p_less_text += format_text + ","
                 else:
-                    p_less_text += format_text + ","
+                    p_less_text += format_text
             paragraphs_less.append(p_less_text)
             paragraphs_more.append(p_more_text)
     print extranged
@@ -86,10 +92,6 @@ def extract_transcripts(json_1, json_2, vtt_pairs):
 
 
 def talk_transcripts_to_text(talk_id, lang_code_1, lang_code_2=None):
-    ends = (',', '.', '"', "?", "-", "!", "、",
-            ";", ")", ">", "_", "，", "？",
-            "。", "！", "；", "》", "——", "…",
-            "）", "）", "’", "：", "：")
     if lang_code_2 == None:
         transcript_1 = requests.get(transcript_api.format(talk_id=talk_id,
                                              language_code=lang_code_1),
