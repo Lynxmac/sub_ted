@@ -16,8 +16,10 @@ def talk_page(request, talk_id=None, slug=None):
 
 
 def random_talk(request):
-    talk_id = randint(1,3000)
-    result = get_talks_info(talk_id)
+    result = None
+    while not result:
+        talk_id = randint(1,3000)
+        result = get_talks_info(talk_id)
     url = "/talks/{talk_id}/{slug}".format(
         talk_id=result['id'],
         slug=result['slug'])

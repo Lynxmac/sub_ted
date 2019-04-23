@@ -1,4 +1,4 @@
-requests
+requests==2.18.4
 django==1.10
-gevent
-gunicorn
+gevent==1.2.2
+gunicorn==19.7.1
